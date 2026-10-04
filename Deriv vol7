@@ -1,0 +1,196 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable type="" id="stake_id">stake</variable>
+    <variable type="" id="base_stake_id">base_stake</variable>
+    <variable type="" id="marti_stake_id">marti_stake</variable>
+    <variable type="" id="loss_streak_id">loss_streak</variable>
+    <variable type="" id="is_even_id">is_even</variable>
+    <variable type="" id="total_profit_id">total_profit</variable>
+    <variable type="" id="tp_id">tp</variable>
+    <variable type="" id="sl_id">sl</variable>
+  </variables>
+  <block type="trade" id="jinu*9KBx=?0=ZEkmjJ_" x="0" y="0">
+    <field name="MARKET_LIST">synthetic_indices</field>
+    <field name="SUBMARKET_LIST">continuous_indices</field>
+    <field name="SYMBOL_LIST">R_100</field>
+    <field name="TRADETYPECAT_LIST">digits</field>
+    <field name="TRADETYPE_LIST">evenodd</field>
+    <field name="TYPE">both</field>
+    <field name="DURATIONUNIT">t</field>
+    <field name="AMOUNT">stake</field>
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="kU}OI/J~tALWAiFVupDw">
+        <field name="VAR" id="base_stake_id" variabletype="">base_stake</field>
+        <value name="VALUE"><block type="math_number" id="TD4ap@q/:aXepa/uw4?T"><field name="NUM">2</field></block></value>
+        <next>
+          <block type="variables_set" id="x3~Al68Jmd6um+*[q%8">
+            <field name="VAR" id="marti_stake_id" variabletype="">marti_stake</field>
+            <value name="VALUE"><block type="math_number" id="DC!J/*N*Mn)OGMT`i8]Q"><field name="NUM">2.5</field></block></value>
+            <next>
+              <block type="variables_set" id="o:Aqj2@)TU=ORQ8[pibn">
+                <field name="VAR" id="tp_id" variabletype="">tp</field>
+                <value name="VALUE"><block type="math_number" id="a1"><field name="NUM">10</field></block></value>
+                <next>
+                  <block type="variables_set" id="EI$Kv[hGcDmAD]3upBIn">
+                    <field name="VAR" id="sl_id" variabletype="">sl</field>
+                    <value name="VALUE"><block type="math_number" id="a2"><field name="NUM">5</field></block></value>
+                    <next>
+                      <block type="variables_set" id="init5">
+                        <field name="VAR" id="stake_id" variabletype="">stake</field>
+                        <value name="VALUE"><block type="variables_get" id="g1"><field name="VAR" id="base_stake_id" variabletype="">base_stake</field></block></value>
+                        <next>
+                          <block type="variables_set" id="init6">
+                            <field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field>
+                            <value name="VALUE"><block type="math_number" id="m5"><field name="NUM">0</field></block></value>
+                            <next>
+                              <block type="variables_set" id="init7">
+                                <field name="VAR" id="total_profit_id" variabletype="">total_profit</field>
+                                <value name="VALUE"><block type="math_number" id="m6"><field name="NUM">0</field></block></value>
+                                <next>
+                                  <block type="variables_set" id="init8">
+                                    <field name="VAR" id="is_even_id" variabletype="">is_even</field>
+                                    <value name="VALUE"><block type="logic_boolean" id="b1"><field name="BOOL">TRUE</field></block></value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="PURCHASE_CONDITIONS">
+      <block type="controls_if" id="M]j|3Ltm_-pAuCF3sckr">
+        <value name="IF0"><block type="variables_get" id="pc2"><field name="VAR" id="is_even_id" variabletype="">is_even</field></block></value>
+        <statement name="DO0"><block type="purchase" id="pc3"><field name="PURCHASE_TYPE">DIGITEVEN</field></block></statement>
+        <statement name="ELSE"><block type="purchase" id="pc4"><field name="PURCHASE_TYPE">DIGITODD</field></block></statement>
+      </block>
+    </statement>
+    <statement name="RESTART_TRADING_CONDITIONS">
+      <block type="variables_set" id="r1">
+        <field name="VAR" id="total_profit_id" variabletype="">total_profit</field>
+        <value name="VALUE">
+          <block type="math_arithmetic" id="ra1"><field name="OP">ADD</field>
+            <value name="A"><block type="variables_get" id="ra2"><field name="VAR" id="total_profit_id" variabletype="">total_profit</field></block></value>
+            <value name="B"><block type="contract_details" id="ra3"><field name="DETAIL">profit</field></block></value>
+          </block>
+        </value>
+        <next>
+          <block type="controls_if" id="r2">
+            <value name="IF0">
+              <block type="logic_compare" id="r3"><field name="OP">EQ</field>
+                <value name="A"><block type="contract_details" id="r4"><field name="DETAIL">isWin</field></block></value>
+                <value name="B"><block type="logic_boolean" id="r5"><field name="BOOL">TRUE</field></block></value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_set" id="r6">
+                <field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field>
+                <value name="VALUE"><block type="math_number" id="r7"><field name="NUM">0</field></block></value>
+                <next>
+                  <block type="variables_set" id="r8">
+                    <field name="VAR" id="stake_id" variabletype="">stake</field>
+                    <value name="VALUE"><block type="variables_get" id="r9"><field name="VAR" id="base_stake_id" variabletype="">base_stake</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="variables_set" id="r10">
+                <field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic" id="r11"><field name="OP">ADD</field>
+                    <value name="A"><block type="variables_get" id="r12"><field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field></block></value>
+                    <value name="B"><block type="math_number" id="r13"><field name="NUM">1</field></block></value>
+                  </block>
+                </value>
+                <next>
+                  <block type="controls_if" id="r14">
+                    <value name="IF0">
+                      <block type="logic_compare" id="r15"><field name="OP">EQ</field>
+                        <value name="A"><block type="variables_get" id="r16"><field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field></block></value>
+                        <value name="B"><block type="math_number" id="r17"><field name="NUM">1</field></block></value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="variables_set" id="r18">
+                        <field name="VAR" id="stake_id" variabletype="">stake</field>
+                        <value name="VALUE"><block type="variables_get" id="r19"><field name="VAR" id="marti_stake_id" variabletype="">marti_stake</field></block></value>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="controls_if" id="r20">
+                        <value name="IF0">
+                          <block type="logic_compare" id="r21"><field name="OP">GTE</field>
+                            <value name="A"><block type="variables_get" id="r22"><field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field></block></value>
+                            <value name="B"><block type="math_number" id="r23"><field name="NUM">2</field></block></value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set" id="r24">
+                            <field name="VAR" id="is_even_id" variabletype="">is_even</field>
+                            <value name="VALUE">
+                              <block type="logic_negate" id="r25">
+                                <value name="BOOL"><block type="variables_get" id="r26"><field name="VAR" id="is_even_id" variabletype="">is_even</field></block></value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set" id="r27">
+                                <field name="VAR" id="loss_streak_id" variabletype="">loss_streak</field>
+                                <value name="VALUE"><block type="math_number" id="r28"><field name="NUM">0</field></block></value>
+                                <next>
+                                  <block type="variables_set" id="r29">
+                                    <field name="VAR" id="stake_id" variabletype="">stake</field>
+                                    <value name="VALUE"><block type="variables_get" id="r30"><field name="VAR" id="base_stake_id" variabletype="">base_stake</field></block></value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="AFTER_PURCHASE">
+      <block type="controls_if" id="ap1">
+        <value name="IF0">
+          <block type="logic_operation" id="ap2"><field name="OP">OR</field>
+            <value name="A">
+              <block type="logic_compare" id="ap3"><field name="OP">GTE</field>
+                <value name="A"><block type="variables_get" id="ap4"><field name="VAR" id="total_profit_id" variabletype="">total_profit</field></block></value>
+                <value name="B"><block type="variables_get" id="ap5"><field name="VAR" id="tp_id" variabletype="">tp</field></block></value>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_compare" id="ap6"><field name="OP">LTE</field>
+                <value name="A"><block type="variables_get" id="ap7"><field name="VAR" id="total_profit_id" variabletype="">total_profit</field></block></value>
+                <value name="B">
+                  <block type="math_arithmetic" id="ap8"><field name="OP">MULTIPLY</field>
+                    <value name="A"><block type="variables_get" id="ap9"><field name="VAR" id="sl_id" variabletype="">sl</field></block></value>
+                    <value name="B"><block type="math_number" id="ap10"><field name="NUM">-1</field></block></value>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0"><block type="notify" id="ap11"><value name="INPUT"><block type="text" id="ap12"><field name="TEXT">TP/SL Hit - Stopped</field></block></value></block></statement>
+        <statement name="ELSE"><block type="trade_again" id="ap13"></block></statement>
+      </block>
+    </statement>
+  </block>
+</xml>
