@@ -1,0 +1,403 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="stake">stake</variable>
+    <variable id="base_stake">base_stake</variable>
+    <variable id="marti_stake">marti_stake</variable>
+    <variable id="loss_streak">loss_streak</variable>
+    <variable id="is_even">is_even</variable>
+    <variable id="total_profit">total_profit</variable>
+    <variable id="tp">tp</variable>
+    <variable id="sl">sl</variable>
+  </variables>
+  <block type="trade_definition" id="1" deletable="false" movable="false">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market" id="2">
+        <field name="MARKET_LIST">synthetic_indices</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">R_100</field>
+        <next>
+          <block type="trade_definition_tradetype" id="3">
+            <field name="TRADETYPECAT">digits</field>
+            <field name="TRADETYPE">evenodd</field>
+            <next>
+              <block type="trade_definition_contracttype" id="4">
+                <field name="TYPE">both</field>
+                <next>
+                  <block type="trade_definition_candleinterval" id="5">
+                    <field name="CANDLEINTERVAL">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell" id="6">
+                        <field name="RESTARTBUYSELL">true</field>
+                        <next>
+                          <block type="trade_definition_restartonerror" id="7">
+                            <field name="RESTARTONERROR">true</field>
+                            <next>
+                              <block type="trade_definition_tradeoptions" id="8">
+                                <value name="DURATION">
+                                  <shadow type="math_number" id="9">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                                <value name="DURATIONUNIT">
+                                  <shadow type="durationtype" id="10">
+                                    <field name="DURATIONUNIT">t</field>
+                                  </shadow>
+                                </value>
+                                <value name="AMOUNT">
+                                  <block type="variables_get" id="11">
+                                    <field name="VAR" id="stake">stake</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="SUBMARKET">
+      <block type="on_strategy_open" id="20">
+        <statement name="STACK">
+          <block type="variables_set" id="21">
+            <field name="VAR" id="base_stake">base_stake</field>
+            <value name="VALUE">
+              <block type="math_number" id="22">
+                <field name="NUM">2</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="23">
+                <field name="VAR" id="marti_stake">marti_stake</field>
+                <value name="VALUE">
+                  <block type="math_number" id="24">
+                    <field name="NUM">2.5</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="25">
+                    <field name="VAR" id="tp">tp</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="26">
+                        <field name="NUM">10</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="27">
+                        <field name="VAR" id="sl">sl</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="28">
+                            <field name="NUM">5</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="29">
+                            <field name="VAR" id="stake">stake</field>
+                            <value name="VALUE">
+                              <block type="variables_get" id="30">
+                                <field name="VAR" id="base_stake">base_stake</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set" id="31">
+                                <field name="VAR" id="loss_streak">loss_streak</field>
+                                <value name="VALUE">
+                                  <block type="math_number" id="32">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set" id="33">
+                                    <field name="VAR" id="total_profit">total_profit</field>
+                                    <value name="VALUE">
+                                      <block type="math_number" id="34">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set" id="35">
+                                        <field name="VAR" id="is_even">is_even</field>
+                                        <value name="VALUE">
+                                          <block type="logic_boolean" id="36">
+                                            <field name="BOOL">TRUE</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <statement name="PURCHASE_CONDITIONS">
+      <block type="before_purchase" id="40">
+        <statement name="STACK">
+          <block type="controls_if" id="41">
+            <value name="IF0">
+              <block type="variables_get" id="42">
+                <field name="VAR" id="is_even">is_even</field>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="purchase" id="43">
+                <field name="PURCHASE_TYPE">DIGITEVEN</field>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="purchase" id="44">
+                <field name="PURCHASE_TYPE">DIGITODD</field>
+              </block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <statement name="RESTART_TRADING_CONDITIONS">
+      <block type="during_purchase" id="50">
+        <statement name="STACK">
+          <block type="variables_set" id="51">
+            <field name="VAR" id="total_profit">total_profit</field>
+            <value name="VALUE">
+              <block type="math_arithmetic" id="52">
+                <field name="OP">ADD</field>
+                <value name="A">
+                  <block type="variables_get" id="53">
+                    <field name="VAR" id="total_profit">total_profit</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="contract_details" id="54">
+                    <field name="DETAIL">profit</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="controls_if" id="55">
+                <value name="IF0">
+                  <block type="logic_compare" id="56">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="contract_details" id="57">
+                        <field name="DETAIL">isWin</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="logic_boolean" id="58">
+                        <field name="BOOL">TRUE</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="variables_set" id="59">
+                    <field name="VAR" id="loss_streak">loss_streak</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="60">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="61">
+                        <field name="VAR" id="stake">stake</field>
+                        <value name="VALUE">
+                          <block type="variables_get" id="62">
+                            <field name="VAR" id="base_stake">base_stake</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <statement name="ELSE">
+                  <block type="variables_set" id="63">
+                    <field name="VAR" id="loss_streak">loss_streak</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic" id="64">
+                        <field name="OP">ADD</field>
+                        <value name="A">
+                          <block type="variables_get" id="65">
+                            <field name="VAR" id="loss_streak">loss_streak</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="66">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_if" id="67">
+                        <value name="IF0">
+                          <block type="logic_compare" id="68">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="variables_get" id="69">
+                                <field name="VAR" id="loss_streak">loss_streak</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="70">
+                                <field name="NUM">1</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set" id="71">
+                            <field name="VAR" id="stake">stake</field>
+                            <value name="VALUE">
+                              <block type="variables_get" id="72">
+                                <field name="VAR" id="marti_stake">marti_stake</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="controls_if" id="73">
+                            <value name="IF0">
+                              <block type="logic_compare" id="74">
+                                <field name="OP">GTE</field>
+                                <value name="A">
+                                  <block type="variables_get" id="75">
+                                    <field name="VAR" id="loss_streak">loss_streak</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="76">
+                                    <field name="NUM">2</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set" id="77">
+                                <field name="VAR" id="is_even">is_even</field>
+                                <value name="VALUE">
+                                  <block type="logic_negate" id="78">
+                                    <value name="BOOL">
+                                      <block type="variables_get" id="79">
+                                        <field name="VAR" id="is_even">is_even</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set" id="80">
+                                    <field name="VAR" id="loss_streak">loss_streak</field>
+                                    <value name="VALUE">
+                                      <block type="math_number" id="81">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set" id="82">
+                                        <field name="VAR" id="stake">stake</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="83">
+                                            <field name="VAR" id="base_stake">base_stake</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <statement name="AFTER_PURCHASE">
+      <block type="after_purchase" id="90">
+        <statement name="STACK">
+          <block type="controls_if" id="91">
+            <value name="IF0">
+              <block type="logic_operation" id="92">
+                <field name="OP">OR</field>
+                <value name="A">
+                  <block type="logic_compare" id="93">
+                    <field name="OP">GTE</field>
+                    <value name="A">
+                      <block type="variables_get" id="94">
+                        <field name="VAR" id="total_profit">total_profit</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="variables_get" id="95">
+                        <field name="VAR" id="tp">tp</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_compare" id="96">
+                    <field name="OP">LTE</field>
+                    <value name="A">
+                      <block type="variables_get" id="97">
+                        <field name="VAR" id="total_profit">total_profit</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_arithmetic" id="98">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                          <block type="variables_get" id="99">
+                            <field name="VAR" id="sl">sl</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="100">
+                            <field name="NUM">-1</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="notify" id="101">
+                <value name="INPUT">
+                  <block type="text" id="102">
+                    <field name="TEXT">TP/SL Hit - Stopped</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="trade_again" id="105"></block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
