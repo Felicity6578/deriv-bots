@@ -1,4 +1,4 @@
-<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
   <variables>
     <variable type="" id="v_stake">stake</variable>
     <variable type="" id="v_base">base_stake</variable>
