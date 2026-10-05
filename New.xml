@@ -1,0 +1,66 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="v1">base_stake</variable>
+    <variable id="v2">marti_stake</variable>
+    <variable id="v3">stake</variable>
+    <variable id="v4">loss_streak</variable>
+    <variable id="v5">is_even</variable>
+  </variables>
+  <block type="trade_definition" id="main" x="0" y="0" deletable="false" movable="false">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market" deletable="false" movable="false">
+        <field name="MARKET_LIST">synthetic_indices</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">R_100</field>
+        <next>
+          <block type="trade_definition_tradetype" deletable="false" movable="false">
+            <field name="TRADETYPECAT_LIST">digits</field>
+            <field name="TRADETYPE_LIST">evenodd</field>
+            <next>
+              <block type="trade_definition_contracttype" deletable="false" movable="false">
+                <field name="TYPE_LIST">both</field>
+                <next>
+                  <block type="trade_definition_candleinterval" deletable="false" movable="false">
+                    <field name="CANDLEINTERVAL_LIST">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell" deletable="false" movable="false">
+                        <field name="RESTARTBUYSELL">TRUE</field>
+                        <next>
+                          <block type="trade_definition_restartonerror" deletable="false" movable="false">
+                            <field name="RESTARTONERROR">TRUE</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="SUBMARKET">
+      <block type="trade_definition_tradeoptions" deletable="false" movable="false">
+        <field name="DURATIONTYPE_LIST">t</field>
+        <field name="DURATION">1</field>
+        <field name="CURRENCY_LIST">USD</field>
+        <value name="AMOUNT">
+          <block type="variables_get"><field name="VAR" id="v3">stake</field></block>
+        </value>
+      </block>
+    </statement>
+    <statement name="INITIALIZATION">
+      <block type="variables_set"><field name="VAR" id="v1">base_stake</field><value name="VALUE"><block type="math_number"><field name="NUM">2</field></block></value><next><block type="variables_set"><field name="VAR" id="v2">marti_stake</field><value name="VALUE"><block type="math_number"><field name="NUM">2.5</field></block></value><next><block type="variables_set"><field name="VAR" id="v3">stake</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="v1">base_stake</field></block></value><next><block type="variables_set"><field name="VAR" id="v4">loss_streak</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value><next><block type="variables_set"><field name="VAR" id="v5">is_even</field><value name="VALUE"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value></block></next></block></next></block></next></block></next></block>
+    </statement>
+    <statement name="BEFOREPURCHASE">
+      <block type="controls_if"><value name="IF0"><block type="variables_get"><field name="VAR" id="v5">is_even</field></block></value><statement name="DO0"><block type="purchase"><field name="PURCHASE_TYPE">DIGITEVEN</field></block></statement><statement name="ELSE"><block type="purchase"><field name="PURCHASE_TYPE">DIGITODD</field></block></statement></block>
+    </statement>
+    <statement name="DURINGPURCHASE">
+      <block type="controls_if"><value name="IF0"><block type="contract_check"><field name="CHECK">isWin</field></block></value><statement name="DO0"><block type="variables_set"><field name="VAR" id="v4">loss_streak</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value><next><block type="variables_set"><field name="VAR" id="v3">stake</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="v1">base_stake</field></block></value></block></next></block></statement><statement name="ELSE"><block type="variables_set"><field name="VAR" id="v4">loss_streak</field><value name="VALUE"><block type="math_arithmetic"><field name="OP">ADD</field><value name="A"><block type="variables_get"><field name="VAR" id="v4">loss_streak</field></block></value><value name="B"><block type="math_number"><field name="NUM">1</field></block></value></block></value><next><block type="controls_if"><value name="IF0"><block type="logic_compare"><field name="OP">EQ</field><value name="A"><block type="variables_get"><field name="VAR" id="v4">loss_streak</field></block></value><value name="B"><block type="math_number"><field name="NUM">1</field></block></value></block></value><statement name="DO0"><block type="variables_set"><field name="VAR" id="v3">stake</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="v2">marti_stake</field></block></value></block></statement><statement name="ELSE"><block type="variables_set"><field name="VAR" id="v5">is_even</field><value name="VALUE"><block type="logic_negate"><value name="BOOL"><block type="variables_get"><field name="VAR" id="v5">is_even</field></block></value></block></value><next><block type="variables_set"><field name="VAR" id="v4">loss_streak</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value><next><block type="variables_set"><field name="VAR" id="v3">stake</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="v1">base_stake</field></block></value></block></next></block></next></block></statement></block></next></block></statement></block>
+    </statement>
+    <statement name="AFTERPURCHASE">
+      <block type="trade_again"></block>
+    </statement>
+  </block>
+</xml>
