@@ -1,0 +1,46 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable id="a">stake</variable>
+    <variable id="b">base</variable>
+    <variable id="c">marti</variable>
+    <variable id="d">loss</variable>
+    <variable id="e">is_even</variable>
+  </variables>
+  <block type="trade" id="1" x="14" y="14">
+    <statement name="SUBMARKET">
+      <block type="market" id="2">
+        <field name="MARKET_LIST">volidx</field>
+        <field name="SUBMARKET_LIST">random_index</field>
+        <field name="SYMBOL_LIST">R_100</field>
+        <field name="TRADETYPECAT_LIST">digits</field>
+        <field name="TRADETYPE_LIST">evenodd</field>
+        <field name="TYPE_LIST">both</field>
+        <field name="CANDLEINTERVAL_LIST">60</field>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <field name="PAYOUTTYPE_LIST">stake</field>
+        <field name="CURRENCY_LIST">USD</field>
+        <field name="RESTARTONERROR">TRUE</field>
+        <value name="DURATION"><block type="math_number" id="3"><field name="NUM">1</field></block></value>
+        <value name="AMOUNT"><block type="variables_get" id="4"><field name="VAR" id="a">stake</field></block></value>
+      </block>
+    </statement>
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="10"><field name="VAR" id="b">base</field><value name="VALUE"><block type="math_number" id="11"><field name="NUM">1</field></block></value>
+        <next><block type="variables_set" id="12"><field name="VAR" id="c">marti</field><value name="VALUE"><block type="math_number" id="13"><field name="NUM">2.5</field></block></value>
+          <next><block type="variables_set" id="14"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="variables_get" id="15"><field name="VAR" id="b">base</field></block></value>
+            <next><block type="variables_set" id="16"><field name="VAR" id="d">loss</field><value name="VALUE"><block type="math_number" id="17"><field name="NUM">0</field></block></value>
+              <next><block type="variables_set" id="18"><field name="VAR" id="e">is_even</field><value name="VALUE"><block type="logic_boolean" id="19"><field name="BOOL">TRUE</field></block></value></block>
+            </next></block>
+          </next></block>
+        </next></block>
+      </next></block>
+    </statement>
+    <next><block type="trade_again" id="20"></block></next>
+  </block>
+  <block type="before_purchase" id="30" x="300" y="14">
+    <statement name="BEFOREPURCHASE_STACK"><block type="controls_if" id="31"><mutation else="1"></mutation><value name="IF0"><block type="variables_get" id="32"><field name="VAR" id="e">is_even</field></block></value><statement name="DO0"><block type="purchase" id="33"><field name="PURCHASE_TYPE">DIGITEVEN</field></block></statement><statement name="ELSE"><block type="purchase" id="34"><field name="PURCHASE_TYPE">DIGITODD</field></block></statement></block></statement>
+  </block>
+  <block type="after_purchase" id="40" x="300" y="200">
+    <statement name="AFTERPURCHASE_STACK"><block type="controls_if" id="41"><mutation else="1"></mutation><value name="IF0"><block type="logic_compare" id="42"><field name="OP">GT</field><value name="A"><block type="contract_details" id="43"><field name="DETAIL">profit</field></block></value><value name="B"><block type="math_number" id="44"><field name="NUM">0</field></block></value></block></value><statement name="DO0"><block type="variables_set" id="45"><field name="VAR" id="d">loss</field><value name="VALUE"><block type="math_number" id="46"><field name="NUM">0</field></block></value><next><block type="variables_set" id="47"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="variables_get" id="48"><field name="VAR" id="b">base</field></block></value></block></next></block></statement><statement name="ELSE"><block type="variables_set" id="49"><field name="VAR" id="d">loss</field><value name="VALUE"><block type="math_arithmetic" id="50"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="51"><field name="VAR" id="d">loss</field></block></value><value name="B"><block type="math_number" id="52"><field name="NUM">1</field></block></value></block></value><next><block type="controls_if" id="53"><mutation else="1"></mutation><value name="IF0"><block type="logic_compare" id="54"><field name="OP">GTE</field><value name="A"><block type="variables_get" id="55"><field name="VAR" id="d">loss</field></block></value><value name="B"><block type="math_number" id="56"><field name="NUM">2</field></block></value></block></value><statement name="DO0"><block type="variables_set" id="57"><field name="VAR" id="e">is_even</field><value name="VALUE"><block type="logic_negate" id="58"><value name="BOOL"><block type="variables_get" id="59"><field name="VAR" id="e">is_even</field></block></value></block></value><next><block type="variables_set" id="60"><field name="VAR" id="d">loss</field><value name="VALUE"><block type="math_number" id="61"><field name="NUM">0</field></block></value></block></next></block></statement><statement name="ELSE"><block type="variables_set" id="62"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="math_arithmetic" id="63"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="64"><field name="VAR" id="a">stake</field></block></value><value name="B"><block type="variables_get" id="65"><field name="VAR" id="c">marti</field></block></value></block></value></block></statement></block></next></block></statement></block></statement>
+  </block>
+</xml>
