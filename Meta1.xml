@@ -1,4 +1,4 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
 <block type="on_strategy_open" id="10" x="0" y="0">
   <statement name="STACK">
     <block type="variables_set" id="11">
