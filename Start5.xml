@@ -44,7 +44,7 @@
   <block type="after_purchase" x="0" y="700">
     <statement name="AFTERPURCHASE_STACK">
       <block type="controls_if" id="a2"><mutation else="1"/>
-        <value name="IF0"><block type="logic_compare" id="a2a"><field name="OP">GT</field><value name="A"><block type="contract_details" id=a2a1"><field name="DETAIL">profit</field></block></value><value name="B"><block type="math_number" id=a2a2"><field name="NUM">0</field></block></value></block></value>
+        <value name="IF0"><block type="logic_compare" id="a2a"><field name="OP">GT</field><value name="A"><block type="contract_details" id="a2a1"><field name="DETAIL">profit</field></block></value><value name="B"><block type="math_number" id="a2a2"><field name="NUM">0</field></block></value></block></value>
         <statement name="DO0">
           <block type="variables_set"><field name="VAR" id="v_loss">loss_streak</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
             <next><block type="variables_set"><field name="VAR" id="v_stake">stake</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="v_base">base_stake</field></block></value></block></next>
