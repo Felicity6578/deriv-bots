@@ -1,0 +1,103 @@
+<xml>
+<block type="on_strategy_open" id="10" x="0" y="0">
+  <statement name="STACK">
+    <block type="variables_set" id="11">
+      <field name="VAR">base_stake</field>
+      <value name="VALUE"><block type="math_number" id="12"><field name="NUM">1</field></block></value>
+      <next>
+        <block type="variables_set" id="13">
+          <field name="VAR">marti_multiplier</field>
+          <value name="VALUE"><block type="math_number" id="14"><field name="NUM">2.2</field></block></value>
+          <next>
+            <block type="variables_set" id="15">
+              <field name="VAR">stake</field>
+              <value name="VALUE"><block type="variables_get" id="16"><field name="VAR">base_stake</field></block></value>
+              <next>
+                <block type="variables_set" id="17">
+                  <field name="VAR">loss_streak</field>
+                  <value name="VALUE"><block type="math_number" id="18"><field name="NUM">0</field></block></value>
+                  <next>
+                    <block type="variables_set" id="19">
+                      <field name="VAR">is_even</field>
+                      <value name="VALUE"><block type="logic_boolean" id="20"><field name="BOOL">TRUE</field></block></value>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </next>
+    </block>
+  </statement>
+</block>
+<block type="trade_definition_market" id="30" x="0" y="250">
+  <field name="MARKET_LIST">synthetic_indices</field>
+  <field name="SUBMARKET_LIST">continuous_indices</field>
+  <field name="SYMBOL_LIST">R_100</field>
+  <statement name="TRADETYPECAT"><block type="trade_definition_tradetype" id="31"><field name="TRADETYPECAT">digits</field><field name="TYPE">evenodd</field></block></statement>
+  <statement name="TYPE"><block type="trade_definition_contracttype" id="32"><field name="TYPE">both</field></block></statement>
+  <statement name="CANDLEINTERVAL"><block type="trade_definition_candleinterval" id="33"><field name="CANDLEINTERVAL_LIST">60</field></block></statement>
+  <statement name="RESTARTBUYSELL"><block type="trade_definition_restartbuysell" id="34"><field name="RESTARTBUYSELL">FALSE</field></block></statement>
+  <statement name="RESTARTONERROR"><block type="trade_definition_restartonerror" id="35"><field name="RESTARTONERROR">TRUE</field></block></statement>
+</block>
+<block type="trade_definition_tradeoptions" id="40" x="0" y="400">
+  <field name="DURATIONUNIT">t</field>
+  <statement name="DURATION"><block type="trade_definition_duration" id="41"><field name="DURATION">1</field></block></statement>
+  <statement name="AMOUNT"><block type="trade_definition_amount" id="42"><field name="AMOUNTTYPE">stake</field><value name="AMOUNT"><block type="variables_get" id="43"><field name="VAR">stake</field></block></value></block></statement>
+</block>
+<block type="before_purchase" id="50" x="0" y="550">
+  <statement name="BEFOREPURCHASE_STACK">
+    <block type="controls_if" id="51">
+      <mutation else="1"></mutation>
+      <value name="IF0"><block type="variables_get" id="52"><field name="VAR">is_even</field></block></value>
+      <statement name="DO0"><block type="purchase" id="53"><field name="PURCHASE_TYPE">DIGITEVEN</field></block></statement>
+      <statement name="ELSE"><block type="purchase" id="54"><field name="PURCHASE_TYPE">DIGITODD</field></block></statement>
+    </block>
+  </statement>
+</block>
+<block type="after_purchase" id="60" x="0" y="700">
+  <statement name="AFTERPURCHASE_STACK">
+    <block type="controls_if" id="61">
+      <mutation else="1"></mutation>
+      <value name="IF0">
+        <block type="logic_compare" id="62">
+          <field name="OP">GT</field>
+          <value name="A"><block type="contract_details" id="63"><field name="DETAIL">profit</field></block></value>
+          <value name="B"><block type="math_number" id="64"><field name="NUM">0</field></block></value>
+        </block>
+      </value>
+      <statement name="DO0">
+        <block type="variables_set" id="65">
+          <field name="VAR">loss_streak</field>
+          <value name="VALUE"><block type="math_number" id="66"><field name="NUM">0</field></block></value>
+          <next><block type="variables_set" id="67"><field name="VAR">stake</field><value name="VALUE"><block type="variables_get" id="68"><field name="VAR">base_stake</field></block></value></block></next>
+        </block>
+      </statement>
+      <statement name="ELSE">
+        <block type="variables_set" id="69">
+          <field name="VAR">loss_streak</field>
+          <value name="VALUE">
+            <block type="math_arithmetic" id="70"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="71"><field name="VAR">loss_streak</field></block></value><value name="B"><block type="math_number" id="72"><field name="NUM">1</field></block></value></block>
+          </value>
+          <next>
+            <block type="controls_if" id="73">
+              <mutation else="1"></mutation>
+              <value name="IF0"><block type="logic_compare" id="74"><field name="OP">GTE</field><value name="A"><block type="variables_get" id="75"><field name="VAR">loss_streak</field></block></value><value name="B"><block type="math_number" id="76"><field name="NUM">2</field></block></value></block></value>
+              <statement name="DO0">
+                <block type="variables_set" id="77"><field name="VAR">is_even</field><value name="VALUE"><block type="logic_negate" id="78"><value name="BOOL"><block type="variables_get" id="79"><field name="VAR">is_even</field></block></value></block></value>
+                  <next><block type="variables_set" id="80"><field name="VAR">loss_streak</field><value name="VALUE"><block type="math_number" id="81"><field name="NUM">0</field></block></value></block></next>
+                </block>
+              </statement>
+              <statement name="ELSE">
+                <block type="variables_set" id="82"><field name="VAR">stake</field><value name="VALUE"><block type="math_arithmetic" id="83"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="84"><field name="VAR">stake</field></block></value><value name="B"><block type="variables_get" id="85"><field name="VAR">marti_multiplier</field></block></value></block></value></block>
+              </statement>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </statement>
+</block>
+<block type="trade_again" id="90" x="0" y="1100"></block>
+</xml>
