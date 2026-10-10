@@ -1,0 +1,116 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="stake">Stake per side</variable>
+    <variable id="dur">Duration (even ticks)</variable>
+    <variable id="status">RF STEP PRO Status</variable>
+    <variable id="cycle">Trade Cycle</variable>
+    <variable id="c1">Analysis Card 1</variable>
+    <variable id="c2">Analysis Card 2</variable>
+    <variable id="c3">Analysis Card 3</variable>
+  </variables>
+  <block type="trade_definition" deletable="false" x="0" y="0">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market">
+        <field name="MARKET_LIST">synthetic_indices</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">STP100</field>
+        <next>
+          <block type="trade_definition_tradetype">
+            <field name="TRADETYPECAT">callput</field>
+            <field name="TRADETYPE">risefall</field>
+            <next>
+              <block type="trade_definition_contracttype">
+                <field name="TYPE">both</field>
+                <next>
+                  <block type="trade_definition_candleinterval">
+                    <field name="CANDLEINTERVAL">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell">
+                        <field name="RESTARTBUYSELL">TRUE</field>
+                        <next>
+                          <block type="trade_definition_restartonerror">
+                            <field name="RESTARTONERROR">TRUE</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="SUBMARKET">
+      <block type="trade_definition_tradeoptions">
+        <field name="DURATIONUNIT">t</field>
+        <value name="DURATION">
+          <block type="variables_get"><field name="VAR" id="dur">Duration (even ticks)</field></block>
+        </value>
+        <value name="AMOUNT">
+          <block type="variables_get"><field name="VAR" id="stake">Stake per side</field></block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="on_strategy_open" x="0" y="380">
+    <statement name="STACK">
+      <block type="variables_set">
+        <field name="VAR" id="stake">Stake per side</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next>
+          <block type="variables_set">
+            <field name="VAR" id="dur">Duration (even ticks)</field>
+            <value name="VALUE"><block type="math_number"><field name="NUM">2</field></block></value>
+            <next>
+              <block type="variables_set">
+                <field name="VAR" id="status">RF STEP PRO Status</field>
+                <value name="VALUE"><block type="text"><field name="TEXT">READY - STEP INDEX / RISE + FALL</field></block></value>
+                <next>
+                  <block type="variables_set">
+                    <field name="VAR" id="cycle">Trade Cycle</field>
+                    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+                    <next>
+                      <block type="variables_set">
+                        <field name="VAR" id="c1">Analysis Card 1</field>
+                        <value name="VALUE"><block type="text"><field name="TEXT">STEP INDEX FILTER: ACTIVE</field></block></value>
+                        <next>
+                          <block type="variables_set">
+                            <field name="VAR" id="c2">Analysis Card 2</field>
+                            <value name="VALUE"><block type="text"><field name="TEXT">PAIR MODE: RISE + FALL</field></block></value>
+                            <next>
+                              <block type="variables_set">
+                                <field name="VAR" id="c3">Analysis Card 3</field>
+                                <value name="VALUE"><block type="text"><field name="TEXT">ENTRY CHECK: ANALYSING</field></block></value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="before_purchase" x="0" y="950">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="purchase"><field name="PURCHASE_TYPE">RISE</field></block>
+    </statement>
+  </block>
+  <block type="during_purchase" x="0" y="1150">
+    <statement name="DURINGPURCHASE_STACK">
+      <block type="purchase"><field name="PURCHASE_TYPE">FALL</field></block>
+    </statement>
+  </block>
+  <block type="after_purchase" x="0" y="1350">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="trade_again"><field name="BOOL">TRUE</field></block>
+    </statement>
+  </block>
+</xml>
