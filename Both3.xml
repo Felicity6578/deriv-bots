@@ -1,0 +1,63 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <variables>
+    <variable id="s">Stake per side</variable>
+    <variable id="d">Duration</variable>
+  </variables>
+  <block type="on_strategy_open">
+    <statement name="STACK">
+      <block type="variables_set">
+        <field name="VAR" id="s">Stake per side</field>
+        <value name="VALUE">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set">
+            <field name="VAR" id="d">Duration</field>
+            <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM">2</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="trade_definition_market">
+    <field name="MARKET_LIST">synthetic_indices</field>
+    <field name="SUBMARKET_LIST">step_indices</field>
+    <field name="SYMBOL_LIST">STP100</field>
+  </block>
+  <block type="trade_definition_tradetype">
+    <field name="TRADETYPECAT">callput</field>
+    <field name="TRADETYPE">risefall</field>
+  </block>
+  <block type="trade_definition_contracttype">
+    <field name="TYPE">both</field>
+  </block>
+  <block type="trade_definition_duration">
+    <field name="DURATIONUNIT">t</field>
+    <value name="DURATION">
+      <block type="variables_get">
+        <field name="VAR" id="d">Duration</field>
+      </block>
+    </value>
+  </block>
+  <block type="trade_definition_stake">
+    <field name="TYPE">stake</field>
+    <value name="AMOUNT">
+      <block type="variables_get">
+        <field name="VAR" id="s">Stake per side</field>
+      </block>
+    </value>
+  </block>
+  <block type="before_purchase">
+    <statement name="STACK">
+      <block type="purchase">
+        <field name="PURCHASE_TYPE">BOTH</field>
+      </block>
+    </statement>
+  </block>
+</xml>
