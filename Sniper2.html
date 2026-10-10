@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{background:#0b0f19;color:#fff;font-family:sans-serif;padding:15px}h2{color:#1aff8c}#log{opacity:.6;font-size:11px}</style></head><body>
+<h2 id="s">CONNECTING VIA HTTPS...</h2>
+<div>Price:<span id="p">-</span> Digit:<b id="d">-</b> Count:<span id="c">0</span></div>
+<div id="log">Starting HTTPS poll...</div>
+<script>
+let ticks=[], market='R_100';
+async function getTick(){
+ try{
+  let r = await fetch('https://api.deriv.com/api/ticks/'+market+'?app_id=1089');
+  // Deriv also allows via ws.derivws.com with POST
+  if(!r.ok) throw 'fail';
+  let j = await r.json();
+  let price = j.quote || j.tick?.quote;
+  if(!price){
+    // try alternative endpoint via allorigins proxy to Deriv WS HTTP
+    let r2 = await fetch('https://ws.derivws.com/websockets/v3?app_id=1089', {method:'POST', body: JSON.stringify({ticks:market})});
+    let j2 = await r2.json().catch(()=>null);
+    if(j2?.tick) price=j2.tick.quote;
+  }
+  if(price){
+    let q=price.toString(); let dig=parseInt(q.slice(-1));
+    if(!isNaN(dig)){
+      ticks.unshift(dig); if(ticks.length>500)ticks.pop();
+      document.getElementById('p').innerText=q;
+      document.getElementById('d').innerText=dig;
+      document.getElementById('c').innerText=ticks.length;
+      document.getElementById('s').innerText='● LIVE CONNECTED (HTTPS)';
+      document.getElementById('log').innerText='Got tick '+q+' total '+ticks.length;
+    }
+  } else {
+    document.getElementById('log').innerText='No price field, trying proxy...';
+    // last resort: use public tick API via cors proxy
+    let pr = await fetch('https://api.allorigins.win/raw?url=https://api.deriv.com/ticks/'+market);
+    let jt = await pr.text();
+    document.getElementById('log').innerText='proxy reply:'+jt.slice(0,80);
+  }
+ }catch(e){
+  document.getElementById('log').innerText='fetch error:'+e+' retry';
+ }
+ setTimeout(getTick, 1000);
+}
+getTick();
+</script></body></html>
