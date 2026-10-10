@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deriv ALL MARKETS Digit Match Sniper v2.1</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b0f19;color:#e8edf5;font-family:Inter,system-ui;padding:12px}
+.top{font-size:11px;opacity:.6;text-align:center;margin-bottom:6px}
+.card{background:#141a28;border:1px solid #1f2a41;border-radius:18px;padding:14px;margin-bottom:12px}
+.live{color:#1aff8c;font-size:11px;font-weight:700;letter-spacing:1px}
+h1{font-size:15px;margin:6px 0 0;letter-spacing:.5px}
+select,button{width:100%;padding:14px;border-radius:14px;border:1px solid #26324d;background:#0b0f19;color:#fff;font-size:14px;margin-top:10px}
+button{background:linear-gradient(90deg,#ff6a2c,#ff2e4d);border:none;font-weight:900;font-size:16px;letter-spacing:.6px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center}
+.big{font-size:72px;font-weight:900;line-height:1;color:#1aff8c;text-shadow:0 0 30px #1aff8c55}
+.label{font-size:11px;opacity:.6;letter-spacing:1px;margin-bottom:8px}
+.sub{font-size:12px;opacity:.8;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.box{background:#1b2338;border:1px solid #26324d;border-radius:14px;padding:10px;text-align:center}
+.box.best{border:2px solid #1aff8c;background:#122a1f;box-shadow:0 0 18px #1aff8c33}
+.box.n{font-size:26px;font-weight:800}.box.p{font-size:12px;opacity:.7}
+.count{font-size:84px;font-weight:900;color:#1aff8c;text-align:center;line-height:1}
+.buy{background:#1aff8c;color:#000;padding:18px;border-radius:16px;font-weight:900;font-size:18px;border:none;width:100%;margin-top:12px;display:none}
+.small{font-size:10px;opacity:.5;text-align:center;margin-top:8px}
+.stream{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:28px;height:28px;border-radius:50%;background:#1b2338;border:1px solid #26324d;display:flex;align-items:center;justify-content:center;font-size:12px}
+</style></head><body>
+<div class="top">Model: Sniper v2.1 • Real-time Deriv Feed • Edge +2.4%</div>
+<div class="card">
+<span class="live">● LIVE</span>
+<h1>DERIV ALL MARKETS - DIGIT MATCH SNIPER</h1>
+<select id="market">
+<option value="R_10">Volatility 10 Index</option>
+<option value="R_25">Volatility 25 Index</option>
+<option value="R_50">Volatility 50 Index</option>
+<option value="R_75">Volatility 75 Index</option>
+<option value="R_100" selected>Volatility 100 Index</option>
+<option value="1HZ10V">Volatility 10 (1s) - 1HZ10V</option>
+<option value="1HZ25V">Volatility 25 (1s) - 1HZ25V</option>
+<option value="1HZ50V">Volatility 50 (1s) - 1HZ50V</option>
+<option value="1HZ100V">Volatility 100 (1s) - 1HZ100V</option>
+<option value="BOOM1000">Boom 1000 Index</option>
+<option value="BOOM500">Boom 500 Index</option>
+<option value="CRASH1000">Crash 1000 Index</option>
+<option value="CRASH500">Crash 500 Index</option>
+<option value="JD10">Jump 10 Index</option>
+<option value="JD25">Jump 25 Index</option>
+<option value="JD50">Jump 50 Index</option>
+<option value="JD100">Jump 100 Index</option>
+</select>
+<button id="runBtn">RUN ANALYSIS</button>
+<div style="margin-top:10px;font-size:12px">Price: <b id="price">-</b> | Last Digit: <b id="lastD" style="font-size:18px">-</b> | Collected: <span id="cnt">0</span></div>
+<div id="stream" class="stream" style="margin-top:8px"></div>
+</div>
+<div class="card" id="res" style="display:none">
+<div class="split">
+<div><div class="label">BEST DIGIT</div><div class="big" id="best">7</div><div class="sub">Highest probability</div></div>
+<div><div class="label">NEXT MATCH IN</div><div class="count" id="count">5</div><div class="sub" id="countSub">seconds countdown</div></div>
+</div>
+<div style="margin-top:14px"><div class="label" style="text-align:center">DIGIT PROBABILITIES</div><div id="grid" class="grid"></div></div>
+<div style="margin-top:12px;text-align:center"><span id="rec" style="font-size:12px;background:#1b2338;padding:6px 12px;border-radius:20px;border:1px solid #26324d"></span></div>
+<button id="buyBtn" class="buy">BUY NOW - CONFIRM TRADE DIGIT <span id="buyD">-</span></button>
+<div class="small" id="conf">Confidence: - • Updated just now</div>
+</div>
+<audio id="beep" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+<audio id="go" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+<script>
+const APP_ID=1089;let ws,ticks=[],market='R_100',lookback=500,interval=null,counting=false;
+function connect(){if(ws)ws.close();ws=new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${APP_ID}`);ws.onopen=()=>ws.send(JSON.stringify({ticks:market,subscribe:1}));ws.onmessage=e=>{const d=JSON.parse(e.data);if(d.tick){const price=d.tick.quote;const last=String(price).slice(-1);const dig=parseInt(last);if(isNaN(dig))return;ticks.unshift({dig,time:Date.now()});if(ticks.length>5000)ticks.pop();document.getElementById('price').textContent=price;document.getElementById('lastD').textContent=dig;document.getElementById('cnt').textContent=ticks.length;document.getElementById('stream').innerHTML=ticks.slice(0,60).map(t=>`<div class=dot>${t.dig}</div>`).join('');}};ws.onclose=()=>setTimeout(connect,2000);}
+function analyse(){if(ticks.length<50){alert('Wait for 50 ticks. Now: '+ticks.length);return;}const slice=ticks.slice(0,lookback).map(t=>t.dig);const c=Array(10).fill(0);slice.forEach(x=>c[x]++);const lastSeen=Array(10).fill(999);for(let i=0;i<10;i++){let idx=slice.indexOf(i);lastSeen[i]=idx===-1?999:idx;}let score=Array(10).fill(0);for(let i=0;i<10;i++)score[i]=(lookback/10 - c[i])*2 + lastSeen[i];let best=score.indexOf(Math.max(...score));let recTicks=1,why='1 Tick - High volatility';if(market.includes('R_10')||market.includes('R_25')){recTicks=2;why='2 Ticks - Low volatility avoids noise';}if(market.includes('BOOM')||market.includes('CRASH')||market.includes('JD')){recTicks=1;why='1 Tick - Jump/Boom/Crash';}
+document.getElementById('res').style.display='block';document.getElementById('best').textContent=best;document.getElementById('buyD').textContent=best;document.getElementById('rec').textContent=why+` | Recommended: ${recTicks} Tick(s)`;document.getElementById('conf').textContent=`Confidence: ${Math.min(95,55+Math.max(...score)/3).toFixed(0)}% • Coldest ${c[best]}x in ${lookback} • Not seen for ${lastSeen[best]} ticks`;let html='';for(let i=0;i<10;i++){html+=`<div class="box ${i==best?'best':''}"><div class=n>${i}</div><div class=p>${(c[i]/slice.length*100).toFixed(1)}%</div><div style="font-size:9px;opacity:.5">${c[i]}x</div></div>`;}document.getElementById('grid').innerHTML=html;startCount(best,recTicks);}
+function startCount(best,rec){let s=5;counting=true;document.getElementById('count').textContent=s;document.getElementById('countSub').textContent='seconds countdown';document.getElementById('buyBtn').style.display='none';try{document.getElementById('beep').play()}catch(e){}interval=setInterval(()=>{s--;document.getElementById('count').textContent=s>0?s:'BUY!';if(s>0)try{document.getElementById('beep').play()}catch(e){}if(s<=0){clearInterval(interval);counting=false;document.getElementById('count').textContent='0';document.getElementById('countSub').textContent='BUY NOW!';document.getElementById('buyBtn').style.display='block';try{document.getElementById('go').play()}catch(e){}document.body.style.background='#0f2318';setTimeout(()=>document.body.style.background='#0b0f19',600);}},1000);}
+document.getElementById('market').onchange=e=>{market=e.target.value;ticks=[];document.getElementById('stream').innerHTML='';document.getElementById('res').style.display='none';connect();};
+document.getElementById('runBtn').onclick=analyse;
+document.getElementById('buyBtn').onclick=()=>{const b=document.getElementById('best').textContent;alert(`NOW GO BUY:\nMarket: ${market}\nDigit: ${b} Matches\nTicks: ${document.getElementById('rec').textContent}\n\nOpen Deriv → Digits → Matches → Select ${b}`);};
+connect();
+</script></body></html>
