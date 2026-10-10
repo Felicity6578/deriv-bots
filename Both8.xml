@@ -1,0 +1,84 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <variables>
+    <variable id="stake1">Stake per side</variable>
+    <variable id="dur1">Duration (even ticks)</variable>
+    <variable id="status1">RF STEP PRO Status</variable>
+    <variable id="cycle1">Trade Cycle</variable>
+    <variable id="card1">Analysis Card 1</variable>
+    <variable id="card2">Analysis Card 2</variable>
+    <variable id="card3">Analysis Card 3</variable>
+  </variables>
+  <block type="trade_definition" id="td" deletable="false" x="0" y="0">
+    <field name="MARKET_LIST">synthetic_indices</field>
+    <field name="SUBMARKET_LIST">step_indices</field>
+    <field name="SYMBOL_LIST">STP100</field>
+    <field name="TRADETYPECAT">callput</field>
+    <field name="TRADETYPE">risefall</field>
+    <field name="TYPE">both</field>
+    <field name="DURATIONUNIT">t</field>
+    <field name="AMOUNT">1</field>
+    <field name="DURATION">2</field>
+    <field name="CANDLEINTERVAL">60</field>
+    <field name="RESTARTBUYSELL">TRUE</field>
+    <field name="RESTARTONERROR">TRUE</field>
+  </block>
+  <block type="on_strategy_open" id="init" x="0" y="300">
+    <statement name="STACK">
+      <block type="variables_set" id="v1">
+        <field name="VAR" id="stake1">Stake per side</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next>
+          <block type="variables_set" id="v2">
+            <field name="VAR" id="dur1">Duration (even ticks)</field>
+            <value name="VALUE"><block type="math_number"><field name="NUM">2</field></block></value>
+            <next>
+              <block type="variables_set" id="v3">
+                <field name="VAR" id="status1">RF STEP PRO Status</field>
+                <value name="VALUE"><block type="text"><field name="TEXT">READY STEP INDEX</field></block></value>
+                <next>
+                  <block type="variables_set" id="v4">
+                    <field name="VAR" id="cycle1">Trade Cycle</field>
+                    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+                    <next>
+                      <block type="variables_set" id="v5">
+                        <field name="VAR" id="card1">Analysis Card 1</field>
+                        <value name="VALUE"><block type="text"><field name="TEXT">STEP INDEX FILTER ACTIVE</field></block></value>
+                        <next>
+                          <block type="variables_set" id="v6">
+                            <field name="VAR" id="card2">Analysis Card 2</field>
+                            <value name="VALUE"><block type="text"><field name="TEXT">PAIR MODE RISE FALL</field></block></value>
+                            <next>
+                              <block type="variables_set" id="v7">
+                                <field name="VAR" id="card3">Analysis Card 3</field>
+                                <value name="VALUE"><block type="text"><field name="TEXT">ENTRY CHECK ANALYSING</field></block></value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="before_purchase" id="bp" x="0" y="900">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="purchase"><field name="PURCHASE_TYPE">RISE</field></block>
+    </statement>
+  </block>
+  <block type="during_purchase" id="dp" x="0" y="1100">
+    <statement name="DURINGPURCHASE_STACK">
+      <block type="purchase"><field name="PURCHASE_TYPE">FALL</field></block>
+    </statement>
+  </block>
+  <block type="after_purchase" id="ap" x="0" y="1300">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="trade_again"><field name="BOOL">TRUE</field></block>
+    </statement>
+  </block>
+</xml>
