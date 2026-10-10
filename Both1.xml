@@ -1,0 +1,16 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+<variables>
+  <variable id="s1">Stake per side</variable>
+  <variable id="d1">Duration (even ticks)</variable>
+  <variable id="st">RF STEP PRO Status</variable>
+  <variable id="tc">Trade Cycle</variable>
+  <variable id="a1">Analysis Card 1</variable>
+  <variable id="a2">Analysis Card 2</variable>
+  <variable id="a3">Analysis Card 3</variable>
+</variables>
+<block type="on_strategy_open"><statement name="STACK"><block type="trade_definition_market"><field name="MARKET_LIST">synthetic_indices</field><field name="SUBMARKET_LIST">step_indices</field><field name="SYMBOL_LIST">STP100</field><next><block type="trade_definition_tradetype"><field name="TRADETYPECAT">callput</field><field name="TRADETYPE">risefall</field><next><block type="trade_definition_contracttype"><field name="TYPE">both</field><next><block type="trade_definition_candleinterval"><field name="CANDLEINTERVAL">60</field><next><block type="trade_definition_restartonerror"><field name="RESTARTONERROR">FALSE</field><next><block type="trade_definition_restartlasttradeonerror"><field name="RESTARTLASTTRADE">FALSE</field></block></next></block></next></block></next></block></next></block></statement></block>
+<block type="strategy_during"><statement name="STACK"><block type="variables_set"><field name="VAR" id="s1">Stake per side</field><value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value><next><block type="variables_set"><field name="VAR" id="d1">Duration (even ticks)</field><value name="VALUE"><block type="math_number"><field name="NUM">2</field></block></value><next><block type="variables_set"><field name="VAR" id="st">RF STEP PRO Status</field><value name="VALUE"><block type="text"><field name="TEXT">READY - STEP INDEX / RISE + FALL</field></block></value><next><block type="variables_set"><field name="VAR" id="tc">Trade Cycle</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value><next><block type="variables_set"><field name="VAR" id="a1">Analysis Card 1</field><value name="VALUE"><block type="text"><field name="TEXT">STEP INDEX FILTER: ACTIVE</field></block></value><next><block type="variables_set"><field name="VAR" id="a2">Analysis Card 2</field><value name="VALUE"><block type="text"><field name="TEXT">PAIR MODE: RISE + FALL</field></block></value><next><block type="variables_set"><field name="VAR" id="a3">Analysis Card 3</field><value name="VALUE"><block type="text"><field name="TEXT">ENTRY CHECK: ANALYSING</field></block></value></block></next></block></next></block></next></block></statement></block>
+<block type="trade_definition_duration"><field name="DURATIONUNIT">t</field><value name="DURATION"><block type="variables_get"><field name="VAR" id="d1">Duration (even ticks)</field></block></value></block>
+<block type="trade_definition_stake"><value name="INPUT"><block type="variables_get"><field name="VAR" id="s1">Stake per side</field></block></value></block>
+<block type="before_purchase"><statement name="STACK"><block type="purchase"><field name="PURCHASE_TYPE">BOTH</field></block></statement></block>
+</xml>
