@@ -1,0 +1,54 @@
+<xml xmlns="https://developers.google.com/blockly/xml" is_dbot="true" collection="false">
+  <block type="trade_definition" deletable="false">
+    <statement name="TRADE_OPTIONS">
+      <block type="trade_definition_market">
+        <field name="MARKET_LIST">synthetic_indices</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">1HZ100V</field>
+        <next>
+          <block type="trade_definition_tradetype">
+            <field name="TRADETYPECAT">callput</field>
+            <field name="TRADETYPE">risefall</field>
+            <next>
+              <block type="trade_definition_contracttype">
+                <field name="TYPE">both</field>
+                <next>
+                  <block type="trade_definition_candleinterval">
+                    <field name="CANDLEINTERVAL">60</field>
+                    <next>
+                      <block type="trade_definition_restartbuysell">
+                        <field name="RESTARTBUYSELL">FALSE</field>
+                        <next>
+                          <block type="trade_definition_restartonerror">
+                            <field name="RESTARTONERROR">TRUE</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="SUBMARKET">
+      <block type="trade_definition_tradeoptions">
+        <field name="DURATIONUNIT">t</field>
+        <value name="DURATION"><block type="math_number"><field name="NUM">2</field></block></value>
+        <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+      </block>
+    </statement>
+  </block>
+  <block type="before_purchase">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="purchase"><field name="PURCHASE_TYPE">BOTH</field></block>
+    </statement>
+  </block>
+  <block type="after_purchase">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="trade_again"><field name="BOOL">TRUE</field></block>
+    </statement>
+  </block>
+</xml>
