@@ -1,0 +1,59 @@
+<xml xmlns="https://developers.google.com/blockly/xml" collection="false" is_dbot="true">
+<block type="trade_definition" deletable="false" id="1">
+<statement name="TRADE_OPTIONS">
+<block type="trade_definition_market" id="2">
+<field name="MARKET_LIST">synthetic_indices</field>
+<field name="SUBMARKET_LIST">continuous_indices</field>
+<field name="SYMBOL_LIST">R_100</field>
+<next>
+<block type="trade_definition_tradetype" id="3">
+<field name="TRADETYPECAT">callput</field>
+<field name="TRADETYPE">risefall</field>
+<next>
+<block type="trade_definition_contracttype" id="4">
+<field name="TYPE">both</field>
+<next>
+<block type="trade_definition_candleinterval" id="5">
+<field name="CANDLEINTERVAL">60</field>
+<next>
+<block type="trade_definition_restartbuysell" id="6">
+<field name="RESTARTBUYSELL">TRUE</field>
+<next>
+<block type="trade_definition_restartonerror" id="7">
+<field name="RESTARTONERROR">TRUE</field>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+<statement name="SUBMARKET">
+<block type="trade_definition_tradeoptions" id="8">
+<field name="DURATIONUNIT">t</field>
+<value name="DURATION"><block type="math_number"><field name="NUM">2</field></block></value>
+<value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+</block>
+</statement>
+</block>
+<block type="before_purchase" id="9">
+<statement name="BEFOREPURCHASE_STACK">
+<block type="purchase"><field name="PURCHASE_TYPE">RISE</field></block>
+</statement>
+</block>
+<block type="during_purchase" id="10">
+<statement name="DURINGPURCHASE_STACK">
+<block type="purchase"><field name="PURCHASE_TYPE">FALL</field></block>
+</statement>
+</block>
+<block type="after_purchase" id="11">
+<statement name="AFTERPURCHASE_STACK">
+<block type="trade_again"><field name="BOOL">TRUE</field></block>
+</statement>
+</block>
+</xml>
