@@ -1,0 +1,63 @@
+<xml xmlns="https://developers.google.com/blockly/xml" collection="false" is_dbot="true">
+<variables>
+<variable id="v1">Stake per side</variable>
+<variable id="v2">Duration (even ticks)</variable>
+<variable id="v3">RF STEP PRO Status</variable>
+<variable id="v4">Trade Cycle</variable>
+<variable id="v5">Analysis Card 1</variable>
+<variable id="v6">Analysis Card 2</variable>
+<variable id="v7">Analysis Card 3</variable>
+</variables>
+<block type="trade_definition" id="1" deletable="false">
+<statement name="TRADE_OPTIONS">
+<block type="trade_definition_market" id="2" deletable="false" movable="false">
+<field name="MARKET_LIST">synthetic_indices</field>
+<field name="SUBMARKET_LIST">step_indices</field>
+<field name="SYMBOL_LIST">STP100</field>
+<next>
+<block type="trade_definition_tradetype" id="3" deletable="false" movable="false">
+<field name="TRADETYPECAT">callput</field>
+<field name="TRADETYPE">risefall</field>
+<next>
+<block type="trade_definition_contracttype" id="4" deletable="false" movable="false">
+<field name="TYPE">both</field>
+<next>
+<block type="trade_definition_candleinterval" id="5" deletable="false" movable="false">
+<field name="CANDLEINTERVAL">60</field>
+<next>
+<block type="trade_definition_restartbuysell" id="6" deletable="false" movable="false">
+<field name="RESTARTBUYSELL">FALSE</field>
+<next>
+<block type="trade_definition_restartonerror" id="7" deletable="false" movable="false">
+<field name="RESTARTONERROR">TRUE</field>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+<statement name="SUBMARKET">
+<block type="trade_definition_tradeoptions" id="8">
+<field name="DURATIONUNIT">t</field>
+<value name="DURATION"><block type="variables_get"><field name="VAR" id="v2">Duration (even ticks)</field></block></value>
+<value name="AMOUNT"><block type="variables_get"><field name="VAR" id="v1">Stake per side</field></block></value>
+</block>
+</statement>
+</block>
+<block type="on_strategy_open" id="20">
+<statement name="STACK">
+<block type="variables_set"><field name="VAR" id="v1">Stake per side</field><value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value><next><block type="variables_set"><field name="VAR" id="v2">Duration (even ticks)</field><value name="VALUE"><block type="math_number"><field name="NUM">2</field></block></value><next><block type="variables_set"><field name="VAR" id="v3">RF STEP PRO Status</field><value name="VALUE"><block type="text"><field name="TEXT">READY - STEP INDEX / RISE + FALL</field></block></value><next><block type="variables_set"><field name="VAR" id="v4">Trade Cycle</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value><next><block type="variables_set"><field name="VAR" id="v5">Analysis Card 1</field><value name="VALUE"><block type="text"><field name="TEXT">STEP INDEX FILTER: ACTIVE</field></block></value><next><block type="variables_set"><field name="VAR" id="v6">Analysis Card 2</field><value name="VALUE"><block type="text"><field name="TEXT">PAIR MODE: RISE + FALL</field></block></value><next><block type="variables_set"><field name="VAR" id="v7">Analysis Card 3</field><value name="VALUE"><block type="text"><field name="TEXT">ENTRY CHECK: ANALYSING</field></block></value></block></next></block></next></block></next></block></next></block>
+</statement>
+</block>
+<block type="after_purchase" id="30">
+<statement name="AFTERPURCHASE_STACK">
+<block type="trade_again" id="31"><field name="BOOL">TRUE</field></block>
+</statement>
+</block>
+</xml>
