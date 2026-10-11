@@ -1,0 +1,90 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<variables>
+<variable id="e">is_even</variable>
+<variable id="a1">Stake per side</variable>
+<variable id="a2">Duration (even ticks)</variable>
+<variable id="a3">RF STEP PRO Status</variable>
+<variable id="a4">Trade Cycle</variable>
+<variable id="a5">Analysis Card 1</variable>
+<variable id="a6">Analysis Card 2</variable>
+<variable id="a7">Analysis Card 3</variable>
+</variables>
+<block type="trade" id="1" x="14" y="14">
+<field name="MARKET_LIST">volidx</field>
+<field name="SUBMARKET_LIST">step_index</field>
+<field name="SYMBOL_LIST">ST100</field>
+<field name="TRADETYPECAT_LIST">callput</field>
+<field name="TRADETYPE_LIST">risefall</field>
+<field name="TYPE_LIST">both</field>
+<field name="CANDLEINTERVAL_LIST">60</field>
+<field name="DURATIONTYPE_LIST">t</field>
+<field name="PAYOUTTYPE_LIST">stake</field>
+<field name="CURRENCY_LIST">USD</field>
+<field name="RESTARTONERROR">TRUE</field>
+<value name="DURATION">
+<block type="variables_get" id="3"><field name="VAR" id="a2">Duration (even ticks)</field></block>
+</value>
+<value name="AMOUNT">
+<block type="variables_get" id="4"><field name="VAR" id="a1">Stake per side</field></block>
+</value>
+</block>
+<block type="on_strategy_open" id="20" x="14" y="150">
+<statement name="STACK">
+<block type="variables_set" id="21">
+<field name="VAR" id="a1">Stake per side</field>
+<value name="VALUE"><block type="math_number" id="21a"><field name="NUM">1</field></block></value>
+<next>
+<block type="variables_set" id="22">
+<field name="VAR" id="a2">Duration (even ticks)</field>
+<value name="VALUE"><block type="math_number" id="22a"><field name="NUM">2</field></block></value>
+<next>
+<block type="variables_set" id="23">
+<field name="VAR" id="a3">RF STEP PRO Status</field>
+<value name="VALUE"><block type="text" id="23a"><field name="TEXT">READY</field></block></value>
+<next>
+<block type="variables_set" id="24">
+<field name="VAR" id="a4">Trade Cycle</field>
+<value name="VALUE"><block type="math_number" id="24a"><field name="NUM">0</field></block></value>
+<next>
+<block type="variables_set" id="25">
+<field name="VAR" id="a5">Analysis Card 1</field>
+<value name="VALUE"><block type="text" id="25a"><field name="TEXT">STEP INDEX FILTER ACTIVE</field></block></value>
+<next>
+<block type="variables_set" id="26">
+<field name="VAR" id="a6">Analysis Card 2</field>
+<value name="VALUE"><block type="text" id="26a"><field name="TEXT">PAIR MODE RISE FALL</field></block></value>
+<next>
+<block type="variables_set" id="27">
+<field name="VAR" id="a7">Analysis Card 3</field>
+<value name="VALUE"><block type="text" id="27a"><field name="TEXT">ENTRY CHECK ANALYSING</field></block></value>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+<block type="before_purchase" id="30" x="14" y="550">
+<statement name="BEFOREPURCHASE_STACK">
+<block type="purchase" id="31"><field name="PURCHASE_LIST">CALL</field></block>
+</statement>
+</block>
+<block type="during_purchase" id="32" x="14" y="650">
+<statement name="DURINGPURCHASE_STACK">
+<block type="purchase" id="33"><field name="PURCHASE_LIST">PUT</field></block>
+</statement>
+</block>
+<block type="after_purchase" id="34" x="14" y="750">
+<statement name="AFTERPURCHASE_STACK">
+<block type="trade_again" id="35"><field name="BOOL">TRUE</field></block>
+</statement>
+</block>
+</xml>
