@@ -1,0 +1,55 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable id="s1">Stake per side</variable>
+    <variable id="d1">Duration (even ticks)</variable>
+    <variable id="rf">RF STEP PRO Status</variable>
+    <variable id="tc">Trade Cycle</variable>
+    <variable id="a1">Analysis Card 1</variable>
+    <variable id="a2">Analysis Card 2</variable>
+    <variable id="a3">Analysis Card 3</variable>
+  </variables>
+  <block type="trade" id="1" x="14" y="14">
+    <statement name="SUBMARKET">
+      <block type="market" id="2">
+        <field name="MARKET_LIST">synthetic_indices</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">1HZ100V</field>
+        <field name="TRADETYPECAT_LIST">callput</field>
+        <field name="TRADETYPE_LIST">risefall</field>
+        <field name="TYPE_LIST">both</field>
+        <field name="CANDLEINTERVAL_LIST">60</field>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <field name="PAYOUTTYPE_LIST">stake</field>
+        <field name="CURRENCY_LIST">USD</field>
+        <field name="RESTARTONERROR">TRUE</field>
+        <value name="DURATION"><block type="variables_get" id="3"><field name="VAR" id="d1">Duration (even ticks)</field></block></value>
+        <value name="AMOUNT"><block type="variables_get" id="4"><field name="VAR" id="s1">Stake per side</field></block></value>
+      </block>
+    </statement>
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="10"><field name="VAR" id="s1">Stake per side</field><value name="VALUE"><block type="math_number" id="11"><field name="NUM">1</field></block></value>
+        <next><block type="variables_set" id="12"><field name="VAR" id="d1">Duration (even ticks)</field><value name="VALUE"><block type="math_number" id="13"><field name="NUM">2</field></block></value>
+          <next><block type="variables_set" id="14"><field name="VAR" id="rf">RF STEP PRO Status</field><value name="VALUE"><block type="text" id="15"><field name="TEXT">READY - STEP INDEX / RISE + FALL</field></block></value>
+            <next><block type="variables_set" id="16"><field name="VAR" id="tc">Trade Cycle</field><value name="VALUE"><block type="math_number" id="17"><field name="NUM">0</field></block></value>
+              <next><block type="variables_set" id="18"><field name="VAR" id="a1">Analysis Card 1</field><value name="VALUE"><block type="text" id="19"><field name="TEXT">STEP INDEX FILTER: ACTIVE</field></block></value>
+                <next><block type="variables_set" id="20"><field name="VAR" id="a2">Analysis Card 2</field><value name="VALUE"><block type="text" id="21"><field name="TEXT">PAIR MODE: RISE + FALL</field></block></value>
+                  <next><block type="variables_set" id="22"><field name="VAR" id="a3">Analysis Card 3</field><value name="VALUE"><block type="text" id="23"><field name="TEXT">ENTRY CHECK: ANALYSING</field></block></value></block>
+                  </next></block>
+                </next></block>
+              </next></block>
+            </next></block>
+          </next></block>
+        </next></block>
+      </statement>
+  </block>
+  <block type="before_purchase" id="30" x="14" y="400">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="purchase" id="30"><field name="PURCHASE_TYPE">BOTH</field></block>
+    </statement>
+  </block>
+  <block type="after_purchase" id="40" x="14" y="600">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="variables_set" id="31"><field name="VAR" id="tc">Trade Cycle</field><value name="VALUE"><block type="math_arithmetic" id="32"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="33"><field name="VAR" id="tc">Trade Cycle</field></block></value><value name="B"><block type="math_number" id="34"><field name="NUM">1</field></block></value></block></value><next><block type="trade_again" id="99"></block></next></block>
+    </statement>
+  </block>
+</xml>
