@@ -1,0 +1,53 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable id="s1">Stake per side</variable>
+    <variable id="d1">Duration (even ticks)</variable>
+  </variables>
+  <block type="trade" id="1" x="14" y="14">
+    <statement name="SUBMARKET">
+      <block type="market" id="2">
+        <field name="MARKET_LIST">synthetic_indices</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">1HZ100V</field>
+        <field name="TRADETYPECAT_LIST">callput</field>
+        <field name="TRADETYPE_LIST">risefall</field>
+        <field name="TYPE_LIST">both</field>
+        <field name="CANDLEINTERVAL_LIST">60</field>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <field name="PAYOUTTYPE_LIST">stake</field>
+        <field name="CURRENCY_LIST">USD</field>
+        <field name="RESTARTONERROR">TRUE</field>
+        <value name="DURATION"><block type="variables_get" id="3"><field name="VAR" id="d1">Duration (even ticks)</field></block></value>
+        <value name="AMOUNT"><block type="variables_get" id="4"><field name="VAR" id="s1">Stake per side</field></block></value>
+      </block>
+    </statement>
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="10"><field name="VAR" id="s1">Stake per side</field><value name="VALUE"><block type="math_number" id="11"><field name="NUM">1</field></block></value>
+        <next><block type="variables_set" id="12"><field name="VAR" id="d1">Duration (even ticks)</field><value name="VALUE"><block type="math_number" id="13"><field name="NUM">2</field></block></value></block>
+        </next></block>
+    </statement>
+  </block>
+  <block type="before_purchase" id="30" x="14" y="400">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="controls_if" id="100">
+        <value name="IF0"><block type="logic_boolean" id="101"><field name="BOOL">TRUE</field></block></value>
+        <statement name="DO0">
+          <block type="purchase" id="102"><field name="PURCHASE_TYPE">CALL</field></block>
+        </statement>
+        <next>
+          <block type="controls_if" id="200">
+            <value name="IF0"><block type="logic_boolean" id="201"><field name="BOOL">TRUE</field></block></value>
+            <statement name="DO0">
+              <block type="purchase" id="202"><field name="PURCHASE_TYPE">PUT</field></block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="after_purchase" id="40" x="14" y="650">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="trade_again" id="99"></block>
+    </statement>
+  </block>
+</xml>
