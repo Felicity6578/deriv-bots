@@ -1,0 +1,100 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable id="a">stake</variable>
+    <variable id="b">base</variable>
+    <variable id="c">marti</variable>
+    <variable id="g">target</variable>
+    <variable id="ld">last_digit</variable>
+  </variables>
+  <block type="trade" id="1" x="14" y="14">
+    <statement name="SUBMARKET">
+      <block type="market" id="2">
+        <field name="MARKET_LIST">volidx</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">R_100</field>
+        <field name="TRADETYPECAT_LIST">digits</field>
+        <field name="TRADETYPE_LIST">matches_differs</field>
+        <field name="TYPE_LIST">differs</field>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <field name="CURRENCY_LIST">USD</field>
+        <field name="RESTARTONERROR">TRUE</field>
+        <value name="DURATION"><block type="math_number"><field name="NUM">1</field></block></value>
+        <value name="AMOUNT"><block type="variables_get"><field name="VAR" id="a">stake</field></block></value>
+        <value name="BARRIEROFFSET"><block type="variables_get"><field name="VAR" id="g">target</field></block></value>
+      </block>
+    </statement>
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="10">
+        <field name="VAR" id="g">target</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next>
+          <block type="variables_set" id="11">
+            <field name="VAR" id="a">stake</field>
+            <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+            <next>
+              <block type="variables_set" id="12">
+                <field name="VAR" id="b">base</field>
+                <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+                <next>
+                  <block type="variables_set" id="13">
+                    <field name="VAR" id="c">marti</field>
+                    <value name="VALUE"><block type="math_number"><field name="NUM">2.5</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="before_purchase" id="30" x="300" y="14">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="variables_set" id="31">
+        <field name="VAR" id="ld">last_digit</field>
+        <value name="VALUE"><block type="last_digit" id="32"></block></value>
+        <next>
+          <block type="variables_set" id="33">
+            <field name="VAR" id="g">target</field>
+            <value name="VALUE"><block type="variables_get"><field name="VAR" id="ld">last_digit</field></block></value>
+            <next>
+              <block type="purchase" id="42">
+                <field name="PURCHASE_TYPE">DIGITDIFF</field>
+                <value name="BARRIEROFFSET"><block type="variables_get"><field name="VAR" id="g">target</field></block></value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="after_purchase" id="50" x="300" y="300">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="controls_if" id="51">
+        <mutation else="1"></mutation>
+        <value name="IF0"><block type="contract_check_result"><field name="CHECK_RESULT">loss</field></block></value>
+        <statement name="DO0">
+          <block type="variables_set" id="52">
+            <field name="VAR" id="a">stake</field>
+            <value name="VALUE">
+              <block type="math_arithmetic">
+                <field name="OP">MULTIPLY</field>
+                <value name="A"><block type="variables_get"><field name="VAR" id="a">stake</field></block></value>
+                <value name="B"><block type="variables_get"><field name="VAR" id="c">marti</field></block></value>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="variables_set" id="53">
+            <field name="VAR" id="a">stake</field>
+            <value name="VALUE"><block type="variables_get"><field name="VAR" id="b">base</field></block></value>
+          </block>
+        </statement>
+        <next>
+          <block type="trade_again" id="99"></block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
