@@ -1,0 +1,64 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+  <variables>
+    <variable id="a">stake</variable>
+    <variable id="b">base</variable>
+    <variable id="c">marti</variable>
+    <variable id="d">loss</variable>
+    <variable id="e">seq_list</variable>
+    <variable id="f">idx</variable>
+    <variable id="g">target</variable>
+  </variables>
+  <block type="trade" id="1" x="14" y="14">
+    <statement name="SUBMARKET">
+      <block type="market" id="2">
+        <field name="MARKET_LIST">volidx</field>
+        <field name="SUBMARKET_LIST">continuous_indices</field>
+        <field name="SYMBOL_LIST">R_100</field>
+        <field name="TRADETYPECAT_LIST">digits</field>
+        <field name="TRADETYPE_LIST">matches_differs</field>
+        <field name="TYPE_LIST">differs</field>
+        <field name="DURATIONTYPE_LIST">t</field>
+        <field name="CURRENCY_LIST">USD</field>
+        <field name="RESTARTONERROR">TRUE</field>
+        <value name="DURATION"><block type="math_number" id="3"><field name="NUM">1</field></block></value>
+        <value name="AMOUNT"><block type="variables_get" id="4"><field name="VAR" id="a">stake</field></block></value>
+        <value name="BARRIEROFFSET"><block type="variables_get" id="5"><field name="VAR" id="g">target</field></block></value>
+      </block>
+    </statement>
+    <statement name="INITIALIZATION">
+      <block type="variables_set" id="10"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next><block type="variables_set" id="11"><field name="VAR" id="b">base</field><value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+          <next><block type="variables_set" id="12"><field name="VAR" id="c">marti</field><value name="VALUE"><block type="math_number"><field name="NUM">2.5</field></block></value>
+            <next><block type="variables_set" id="13"><field name="VAR" id="f">idx</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+              <next><block type="variables_set" id="14"><field name="VAR" id="e">seq_list</field><value name="VALUE"><block type="lists_create_with"><mutation items="10"></mutation><value name="ADD0"><block type="math_number"><field name="NUM">0</field></block></value><value name="ADD1"><block type="math_number"><field name="NUM">9</field></block></value><value name="ADD2"><block type="math_number"><field name="NUM">7</field></block></value><value name="ADD3"><block type="math_number"><field name="NUM">2</field></block></value><value name="ADD4"><block type="math_number"><field name="NUM">4</field></block></value><value name="ADD5"><block type="math_number"><field name="NUM">5</field></block></value><value name="ADD6"><block type="math_number"><field name="NUM">3</field></block></value><value name="ADD7"><block type="math_number"><field name="NUM">6</field></block></value><value name="ADD8"><block type="math_number"><field name="NUM">8</field></block></value><value name="ADD9"><block type="math_number"><field name="NUM">1</field></block></value></block></value>
+                <next><block type="variables_set" id="15"><field name="VAR" id="g">target</field><value name="VALUE"><block type="lists_getIndex"><mutation statement="false" at="false"></mutation><field name="MODE">GET</field><field name="WHERE">FROM_START</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="e">seq_list</field></block></value><value name="AT"><block type="variables_get"><field name="VAR" id="f">idx</field></block></value></block></value>
+                  <next><block type="variables_set" id="16"><field name="VAR" id="d">loss</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+                    <next><block type="variables_set" id="17"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="variables_get"><field name="VAR" id="b">base</field></block></value></block>
+                  </next></block>
+                </next></block>
+              </next></block>
+            </next></block>
+          </next></block>
+        </next></block>
+      </next></block>
+    </statement>
+  </block>
+  <block type="before_purchase" id="30" x="300" y="14">
+    <statement name="BEFOREPURCHASE_STACK"><block type="purchase" id="31"><field name="PURCHASE_TYPE">DIGITDIFF</field><value name="BARRIEROFFSET"><block type="variables_get" id="32"><field name="VAR" id="g">target</field></block></value></block></statement>
+  </block>
+  <block type="after_purchase" id="40" x="300" y="200">
+    <statement name="AFTERPURCHASE_STACK">
+      <block type="controls_if" id="41"><mutation else="1"></mutation><value name="IF0"><block type="contract_check_result" id="42"><field name="CHECK_RESULT">loss</field></block></value>
+        <statement name="DO0"><block type="variables_set" id="43"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="math_arithmetic" id="44"><field name="OP">MULTIPLY</field><value name="A"><block type="variables_get" id="45"><field name="VAR" id="a">stake</field></block></value><value name="B"><block type="variables_get" id="46"><field name="VAR" id="c">marti</field></block></value></block></value></block></statement>
+        <statement name="ELSE"><block type="variables_set" id="47"><field name="VAR" id="a">stake</field><value name="VALUE"><block type="variables_get" id="48"><field name="VAR" id="b">base</field></block></value></block></statement>
+        <next><block type="variables_set" id="50"><field name="VAR" id="f">idx</field><value name="VALUE"><block type="math_arithmetic" id="51"><field name="OP">ADD</field><value name="A"><block type="variables_get" id="52"><field name="VAR" id="f">idx</field></block></value><value name="B"><block type="math_number" id="53"><field name="NUM">1</field></block></value></block></value>
+          <next><block type="controls_if" id="54"><value name="IF0"><block type="logic_compare" id="55"><field name="OP">GTE</field><value name="A"><block type="variables_get" id="56"><field name="VAR" id="f">idx</field></block></value><value name="B"><block type="math_number" id="57"><field name="NUM">10</field></block></value></block></value><statement name="DO0"><block type="variables_set" id="58"><field name="VAR" id="f">idx</field><value name="VALUE"><block type="math_number" id="59"><field name="NUM">0</field></block></value></block></statement></block>
+            <next><block type="variables_set" id="60"><field name="VAR" id="g">target</field><value name="VALUE"><block type="lists_getIndex" id="61"><mutation statement="false" at="false"></mutation><field name="MODE">GET</field><field name="WHERE">FROM_START</field><value name="VALUE"><block type="variables_get" id="62"><field name="VAR" id="e">seq_list</field></block></value><value name="AT"><block type="variables_get" id="63"><field name="VAR" id="f">idx</field></block></value></block></value>
+              <next><block type="trade_again" id="99"></block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block>
+    </statement>
+  </block>
+</xml>
