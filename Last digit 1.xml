@@ -1581,4 +1581,226 @@
                                                         <value name="B">
                                                           <block type="variables_get" id="`O`{.V5C!K/%9td@9`Ny">
                                                             <field name="VAR" id="a*vVhtZjB[CdOZBdgIFq" variabletype="">fld2:MaxStats</field>
+                                                                        </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <statement name="DO0">
+                                                      <block type="variables_set" id="j_E,kNmzo1Tnd_c(4#rB">
+                                                        <field name="VAR" id="a*vVhtZjB[CdOZBdgIFq" variabletype="">fld2:MaxStats</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get" id="p}p|/m6n@4::.[I}aT0}">
+                                                            <field name="VAR" id="2/!wuwxM!-r~4]t;5mXn" variabletype="">fld2:DigitStat</field>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set" id="ohs72,lR6/D|KcaqL@0{">
+                                                            <field name="VAR" id="`na;jqo85DB`1ddOY/qL" variabletype="">fld2:LowestStat</field>
+                                                            <value name="VALUE">
+                                                              <block type="math_arithmetic" id="]|cfp:13Y-EPn8Php3|g">
+                                                                <field name="OP">MINUS</field>
+                                                                <value name="A">
+                                                                  <shadow type="math_number" id=",A(A=v?mKsYGV`YVeVux">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get" id="K}R-,T-Q%`pBXCvgH.9b">
+                                                                    <field name="VAR" id=".F}O!b5To=EQb^xvBuF9" variabletype="">fld2:k</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="math_number" id="P7B^MWtk[?A|8%vW}ole">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </statement>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="variables_set" id="4%%x[#LD|:9+At3-D39~">
+                                            <field name="VAR" id="TN1+}1m9k)fcT`p#]xKj" variabletype="">fld2:even</field>
+                                            <value name="VALUE">
+                                              <block type="math_number" id="4{u5zwp^C(aL!o#_;X(z">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set" id="#J-{EcBJ1agD_%4A[ebm">
+                                                <field name="VAR" id="8xeP.9I4nOGGu}x2pz7R" variabletype="">fld2:odd</field>
+                                                <value name="VALUE">
+                                                  <block type="math_number" id="b19$7GQB7}iK_.ph;dEv">
+                                                    <field name="NUM">0</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="controls_for" id=":2M*c;W^Pg:YAST$NwOX">
+                                                    <field name="VAR" id="N65.yto^f%i%5lI$2W_=" variabletype="">fld2:n</field>
+                                                    <value name="FROM">
+                                                      <block type="math_number" id=";efQ?oxHu9W{.9bNJF=)">
+                                                        <field name="NUM">1</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="TO">
+                                                      <block type="variables_get" id="IqS~uH?D4T@*,Z?@Ri^M">
+                                                        <field name="VAR" id="ZANWip{N:PSAp/tBH^rK" variabletype="">[fld2] How many ticks?</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="BY">
+                                                      <block type="math_number" id="KhTBRGOjEIEAmF*hWA9x">
+                                                        <field name="NUM">1</field>
+                                                      </block>
+                                                    </value>
+                                                    <statement name="DO">
+                                                      <block type="controls_if" id="BUi{=YC39%}.J{[xBr9e">
+                                                        <mutation else="1"></mutation>
+                                                        <value name="IF0">
+                                                          <block type="math_number_property" id="Hg$VF9IrUsx]Awn+,{|9">
+                                                            <mutation divisor_input="false"></mutation>
+                                                            <field name="PROPERTY">EVEN</field>
+                                                            <value name="NUMBER_TO_CHECK">
+                                                              <shadow type="math_number" id="_Q_u9$~f^VN)biGPgq0.">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="lists_getIndex" id="TAr;T})%4x]kGtOo{WPV">
+                                                                <mutation statement="false" at="true"></mutation>
+                                                                <field name="MODE">GET</field>
+                                                                <field name="WHERE">FROM_END</field>
+                                                                <value name="VALUE">
+                                                                  <block type="variables_get" id="9(n#]rma_G$^49vl=cPU">
+                                                                    <field name="VAR" id="[en@;9L+TKtw(U2~(Ku2" variabletype="">fld2:LastDigitList</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="AT">
+                                                                  <block type="variables_get" id="5W-k4.i)d:+,B;qoV!*n">
+                                                                    <field name="VAR" id="N65.yto^f%i%5lI$2W_=" variabletype="">fld2:n</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <statement name="DO0">
+                                                          <block type="math_change" id="kE,~.,2$*#61c`=:/L?.">
+                                                            <field name="VAR" id="TN1+}1m9k)fcT`p#]xKj" variabletype="">fld2:even</field>
+                                                            <value name="DELTA">
+                                                              <shadow type="math_number" id="WU:*-CJ#8b!z`^?50t83">
+                                                                <field name="NUM">1</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </statement>
+                                                        <statement name="ELSE">
+                                                          <block type="math_change" id="vj?63`2xurXm+FF;7mjW">
+                                                            <field name="VAR" id="8xeP.9I4nOGGu}x2pz7R" variabletype="">fld2:odd</field>
+                                                            <value name="DELTA">
+                                                              <shadow type="math_number" id="MD[IGfJ@?#IY,xGc#*Q%">
+                                                                <field name="NUM">1</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </statement>
+                                                      </block>
+                                                    </statement>
+                                                    <next>
+                                                      <block type="variables_set" id="F|0eO7fJp;k2A`gqI]di">
+                                                        <field name="VAR" id="WVFA9_%DJ+K3!oq~UT-Y" variabletype="">fld2:even%</field>
+                                                        <value name="VALUE">
+                                                          <block type="math_arithmetic" id="M{?YlW.]J$Ycn4e^x;S?">
+                                                            <field name="OP">DIVIDE</field>
+                                                            <value name="A">
+                                                              <shadow type="math_number" id="GBgq@|e_@T`VjHB2P~.t">
+                                                                <field name="NUM">1</field>
+                                                              </shadow>
+                                                              <block type="math_arithmetic" id="2J)CuTtpO?/|xla=-jIn">
+                                                                <field name="OP">MULTIPLY</field>
+                                                                <value name="A">
+                                                                  <shadow type="math_number" id="jqpRnx8}bH`zjqt3z-d,">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get" id="b`:sZL)SGU5NiLg2Z[Ps">
+                                                                    <field name="VAR" id="TN1+}1m9k)fcT`p#]xKj" variabletype="">fld2:even</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="math_number" id="/QUiY|b]y%(^O#FouRW1">
+                                                                    <field name="NUM">100</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <shadow type="math_number" id="0.[OE?,PTjpk2C^4X6h,">
+                                                                <field name="NUM">100</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="3Y7lktBy7B3a[]Qs-ov3">
+                                                                <field name="VAR" id="ZANWip{N:PSAp/tBH^rK" variabletype="">[fld2] How many ticks?</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set" id="(F4IDDcv%upIIhlKRtk.">
+                                                            <field name="VAR" id="WVFA9_%DJ+K3!oq~UT-Y" variabletype="">fld2:even%</field>
+                                                            <value name="VALUE">
+                                                              <block type="math_arithmetic" id="%r@yEEYL3b:/z{8}mu/c">
+                                                                <field name="OP">DIVIDE</field>
+                                                                <value name="A">
+                                                                  <shadow type="math_number" id="]XVm=!U{SK6idt!$Cz,r">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                  <block type="math_round" id="k!p-4HBgB_M:U%zIkg|Z">
+                                                                    <field name="OP">ROUND</field>
+                                                                    <value name="NUM">
+                                                                      <shadow type="math_number" id="!xr8{:y`fG-B]qmDek0j">
+                                                                        <field name="NUM">3.1</field>
+                                                                      </shadow>
+                                                                      <block type="math_arithmetic" id="?!xvQVxp1CWNkh6a1ZqJ">
+                                                                        <field name="OP">MULTIPLY</field>
+                                                                        <value name="A">
+                                                                          <shadow type="math_number" id="Yn`kO[6?0TSwU!_s#{)1">
+                                                                            <field name="NUM">1</field>
+                                                                          </shadow>
+                                                                          <block type="variables_get" id="wJgHKF{eV-JiCb`Z_phY">
+                                                                            <field name="VAR" id="WVFA9_%DJ+K3!oq~UT-Y" variabletype="">fld2:even%</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <shadow type="math_number" id="RC7A%EAUVQ!Za.[8#G$V">
+                                                                            <field name="NUM">100</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="math_number" id=":I_GH0_4c!Io6t!W|csQ">
+                                                                    <field name="NUM">100</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="variables_set" id="AxUY4a5L,Lubj`,]@D.s">
+                                                                <field name="VAR" id="[}/%B)%3ElXnwq8Epc-F" variabletype="">fld2:odd%</field>
+                                                                <value name="VALUE">
+                                                                  <block type="math_arithmetic" id="8swYk3],PG$?~0a2~zMa">
+                                                                    <field name="OP">DIVIDE</field>
+                                                                    <value name="A">
+                                                                      <shadow type="math_number" id="GBgq@|e_@T`VjHB2P~.t">
+                                                                        <field name="NUM">1</field>
+                                                                      </shadow>
+                                                                      <block type="math_arithmetic" id="SvMq[5*Y28s1[I[cvG-7">
+                                                                        <field name="OP">MULTIPLY</field>
+                                                                        <value name="A">
+                                                                          <shadow type="math_number" id="jqpRnx8}bH`zjqt3z-d,">
+                                       
                                                    
